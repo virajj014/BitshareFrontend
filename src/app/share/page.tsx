@@ -15,6 +15,7 @@ let apiurl: string = `${process.env.NEXT_PUBLIC_API_URL}`
 
 const Page = () => {
   const dispatch = useDispatch<AppDispatch>()
+  const Router = useRouter()
 
   const auth = useAppSelector((state) => state.authReducer)
   const [file, setFile] = useState<any>(null)
@@ -37,81 +38,8 @@ const Page = () => {
   const [uploading, setUploading] = useState(false)
   const [uploadpercent, setUploadpercent] = useState(0)
 
-  const Router = useRouter()
-  // const handleUploadOld = async () => {
-  //   console.log(email);
-  //   console.log(file);
-  //   console.log(fileName);
-
-  //   if (!email) {
-  //     toast.error('Please fill all the fields');
-  //     return;
-  //   }
-  //   if (!file) {
-  //     toast.error('Please select a file');
-  //     return;
-  //   }
-
-
-  //   let formdata = new FormData();
-  //   formdata.append('receiveremail', email);
-  //   formdata.append('filename', fileName);
-
-  //   if (file) {
-  //     formdata.append('clientfile', file);
-  //   }
-
-
-  //   setUploading(true);
-  //   let req = new XMLHttpRequest();
-  //   req.open('POST', process.env.NEXT_PUBLIC_API_URL + '/file/sharefile', true);
-  //   req.withCredentials = true;
-
-
-  //   req.upload.addEventListener('progress', (event) => {
-  //     if (event.lengthComputable) {
-  //       const percent = (event.loaded / event.total) * 100;
-  //       setUploadpercent(Math.round(percent));
-  //       console.log(`Upload progress: ${Math.round(percent)}%`);
-  //       // You can update the UI with the upload progress if needed
-  //     }
-  //   });
-
-
-  //   req.upload.addEventListener('load', () => {
-  //     console.log('Upload complete!');
-  //     // Handle completion as needed
-
-  //     toast.success('File uploaded successfully');
-  //   });
-  //   req.upload.addEventListener('error', (error) => {
-  //     console.error('Upload failed:', error);
-  //     // Handle errors as needed
-  //     toast.error('File upload failed');
-  //     setUploading(false);
-
-  //   });
-
-
-  //   req.onreadystatechange = function () {
-  //     if (req.readyState === 4) {
-  //       setUploading(false);
-  //       if (req.status === 200) {
-  //         toast.success('File shared successfully');
-  //         socket.emit('uploaded', {
-  //           from: auth.user.email,
-  //           to: email,
-  //         })
-  //         Router.push('/myfiles');
-  //       } else {
-  //         toast.error('File upload failed');
-  //       }
-  //     }
-  //   }
-
-  //   req.send(formdata);
-
-  // }
+ 
+  
 
 
   const generatepostobjecturl = async () => {
@@ -201,12 +129,11 @@ const Page = () => {
   // const [socketId, setSocketId] = useState<string>("")
   // socket = useMemo(() => io(apiurl), [])
 
-  const router = useRouter()
 
   useEffect(() => {
     console.log(auth.isAuth)
     if (!auth.isAuth) {
-      return router.push("/login");
+      return Router.push("/login");
     }
   }, [auth]);
 
@@ -246,14 +173,14 @@ const Page = () => {
     else {
 
       dispatch(logOut())
-      router.push('/login')
+      Router.push('/login')
     }
   }
 
   return (
     <div className={styles.authpage}>
       <div className={styles.inputcontaner}>
-        <label htmlFor="email">Receiver's email</label>
+        <label htmlFor="email">Receiver&apos;s email</label>
         <input type="email" name="email" id="email" value={email} onChange={e => setEmail(e.target.value)} />
       </div>
       <div className={styles.inputcontaner}>
@@ -297,7 +224,7 @@ const Page = () => {
                 isDragActive ?
                   <p>Drop the files here ...</p> :
                   <div className={styles.droptext}>
-                    <p>Drag 'n' drop some files here</p>
+                    <p>Drag &apos;n&apos; drop some files here</p>
                     <p>or</p>
                     <p>click here to select files</p>
                   </div>
@@ -316,15 +243,7 @@ const Page = () => {
 
       {uploading &&
         <div className={styles.uploadpopup}>
-          {/* <div className={styles.uploadsectionrow}>
-            <div className={styles.uploadbar}>
-              <div
-                style={{ width: `${uploadpercent}%`, backgroundColor: 'lightgreen', height: '100%', borderRadius: '5px' }}
-              ></div>
-            </div>
-            <p>{uploadpercent}%</p>
-
-          </div> */}
+     
           <p>Uploading...</p>
 
         </div>
